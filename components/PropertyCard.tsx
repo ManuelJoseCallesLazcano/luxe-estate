@@ -1,39 +1,65 @@
-import { Property } from "../data/mockProperties";
+import { Property } from "../lib/types";
 
-export default function PropertyCard({ property, hiddenClasses }: { property: Property, hiddenClasses?: string }) {
+export default function PropertyCard({
+  property,
+  hiddenClasses,
+}: {
+  property: Property;
+  hiddenClasses?: string;
+}) {
   return (
-    <article className={`bg-white dark:bg-white/5 rounded-xl overflow-hidden shadow-card hover:shadow-soft transition-all duration-300 group cursor-pointer h-full flex flex-col ${hiddenClasses || ''}`}>
+    <article
+      className={`bg-white dark:bg-white/5 rounded-xl overflow-hidden shadow-card hover:shadow-soft transition-all duration-300 group cursor-pointer h-full flex flex-col ${hiddenClasses || ""}`}
+    >
       <div className="relative aspect-[4/3] overflow-hidden">
         <img
           alt={property.title}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-          src={property.imageUrl}
+          src={property.image_url}
         />
         <button className="absolute top-3 right-3 p-2 bg-white/90 dark:bg-black/50 rounded-full hover:bg-mosque hover:text-white transition-colors text-nordic-dark">
           <span className="material-icons text-lg">favorite_border</span>
         </button>
-        <div className={`absolute bottom-3 left-3 ${property.status === 'FOR SALE' ? 'bg-nordic-dark/90' : 'bg-mosque/90'} text-white text-xs font-bold px-2 py-1 rounded`}>
+        <div
+          className={`absolute bottom-3 left-3 ${property.status === "FOR SALE" ? "bg-nordic-dark/90" : "bg-mosque/90"} text-white text-xs font-bold px-2 py-1 rounded`}
+        >
           {property.status}
         </div>
       </div>
       <div className="p-4 flex flex-col flex-grow">
         <div className="flex justify-between items-baseline mb-2">
           <h3 className="font-bold text-lg text-nordic-dark dark:text-white">
-            {property.currency}{property.price.toLocaleString()}
-            {property.period && <span className="text-sm font-normal text-nordic-muted">{property.period}</span>}
+            {property.currency}
+            {property.price.toLocaleString()}
+            {property.period && (
+              <span className="text-sm font-normal text-nordic-muted">
+                {property.period}
+              </span>
+            )}
           </h3>
         </div>
-        <h4 className="text-nordic-dark dark:text-gray-200 font-medium truncate mb-1">{property.title}</h4>
+        <h4 className="text-nordic-dark dark:text-gray-200 font-medium truncate mb-1">
+          {property.title}
+        </h4>
         <p className="text-nordic-muted text-xs mb-4">{property.location}</p>
         <div className="mt-auto flex items-center justify-between pt-3 border-t border-gray-100 dark:border-white/10">
           <div className="flex items-center gap-1 text-nordic-muted text-xs">
-            <span className="material-icons text-sm text-mosque/80">king_bed</span> {property.beds}
+            <span className="material-icons text-sm text-mosque/80">
+              king_bed
+            </span>{" "}
+            {property.beds}
           </div>
           <div className="flex items-center gap-1 text-nordic-muted text-xs">
-            <span className="material-icons text-sm text-mosque/80">bathtub</span> {property.baths}
+            <span className="material-icons text-sm text-mosque/80">
+              bathtub
+            </span>{" "}
+            {property.baths}
           </div>
           <div className="flex items-center gap-1 text-nordic-muted text-xs">
-            <span className="material-icons text-sm text-mosque/80">square_foot</span> {property.area}m²
+            <span className="material-icons text-sm text-mosque/80">
+              square_foot
+            </span>{" "}
+            {property.area}m²
           </div>
         </div>
       </div>

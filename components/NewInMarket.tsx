@@ -1,35 +1,59 @@
-import { newMarketProperties } from "../data/mockProperties";
+import { Property } from "../lib/types";
 import PropertyCard from "./PropertyCard";
+import Pagination from "./Pagination";
+import { Suspense } from "react";
 
-export default function NewInMarket() {
+interface NewInMarketProps {
+  properties: Property[];
+  currentPage: number;
+  totalPages: number;
+}
+
+export default function NewInMarket({
+  properties,
+  currentPage,
+  totalPages,
+}: NewInMarketProps) {
   return (
     <section>
       <div className="flex items-end justify-between mb-8">
         <div>
-          <h2 className="text-2xl font-light text-nordic-dark dark:text-white">New in Market</h2>
-          <p className="text-nordic-muted mt-1 text-sm">Fresh opportunities added this week.</p>
+          <h2 className="text-2xl font-light text-nordic-dark dark:text-white">
+            New in Market
+          </h2>
+          <p className="text-nordic-muted mt-1 text-sm">
+            Fresh opportunities added this week.
+          </p>
         </div>
         <div className="hidden md:flex bg-white dark:bg-white/5 p-1 rounded-lg">
-          <button className="px-4 py-1.5 rounded-md text-sm font-medium bg-nordic-dark text-white shadow-sm">All</button>
-          <button className="px-4 py-1.5 rounded-md text-sm font-medium text-nordic-muted hover:text-nordic-dark dark:hover:text-white">Buy</button>
-          <button className="px-4 py-1.5 rounded-md text-sm font-medium text-nordic-muted hover:text-nordic-dark dark:hover:text-white">Rent</button>
+          <button className="px-4 py-1.5 rounded-md text-sm font-medium bg-nordic-dark text-white shadow-sm">
+            All
+          </button>
+          <button className="px-4 py-1.5 rounded-md text-sm font-medium text-nordic-muted hover:text-nordic-dark dark:hover:text-white">
+            Buy
+          </button>
+          <button className="px-4 py-1.5 rounded-md text-sm font-medium text-nordic-muted hover:text-nordic-dark dark:hover:text-white">
+            Rent
+          </button>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {newMarketProperties.map((property, index) => {
-          let hiddenClasses = '';
-          if (index === 4) hiddenClasses = 'hidden xl:flex';
-          if (index === 5) hiddenClasses = 'hidden lg:flex';
-          return (
-            <PropertyCard key={property.id} property={property} hiddenClasses={hiddenClasses} />
-          );
-        })}
-      </div>
-      <div className="mt-12 text-center">
-        <button className="px-8 py-3 bg-white dark:bg-white/5 border border-nordic-dark/10 dark:border-white/10 hover:border-mosque hover:text-mosque text-nordic-dark dark:text-white font-medium rounded-lg transition-all hover:shadow-md">
-            Load more properties
-        </button>
-      </div>
+
+      {properties.length === 0 ? (
+        <div className="py-20 text-center text-nordic-muted">
+          No properties found.
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {properties.map((property) => (
+            <PropertyCard key={property.id} property={property} />
+          ))}
+        </div>
+      )}
+
+      {/* Pagination is a Client Component; wrap in Suspense as required by Next.js */}
+      <Suspense fallback={null}>
+        <Pagination currentPage={currentPage} totalPages={totalPages} />
+      </Suspense>
     </section>
   );
 }
